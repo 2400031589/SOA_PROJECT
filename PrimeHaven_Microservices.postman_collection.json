@@ -1,0 +1,352 @@
+{
+	"info": {
+		"_postman_id": "primehaven-api-collection",
+		"name": "PrimeHaven Microservices API",
+		"description": "Complete collection for PrimeHaven Real Estate Microservices via API Gateway (Port 8080)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Auth Service",
+			"item": [
+				{
+					"name": "Login (Generate JWT)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"if (data.token) {",
+									"    pm.collectionVariables.set('jwt_token', data.token);",
+									"    console.log('JWT Token stored successfully into collection variable: jwt_token');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"siva_user\",\n  \"role\": \"CLIENT\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["auth", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Property Service",
+			"item": [
+				{
+					"name": "Create Property",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyName\": \"Greenwood Luxury Villa\",\n  \"location\": \"Hyderabad, Hitech City\",\n  \"price\": 15000000.0,\n  \"status\": \"AVAILABLE\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/properties",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["properties"]
+						}
+					}
+				},
+				{
+					"name": "Get All Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/properties",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["properties"]
+						}
+					}
+				},
+				{
+					"name": "Get Property by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/properties/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["properties", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Property",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyName\": \"Greenwood Premium Villa\",\n  \"location\": \"Hyderabad, Financial District\",\n  \"price\": 17500000.0,\n  \"status\": \"UNDER_CONTRACT\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/properties/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["properties", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Property",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/properties/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["properties", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Visit Service",
+			"item": [
+				{
+					"name": "Schedule Visit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyId\": 1,\n  \"userId\": 101,\n  \"visitDate\": \"2026-10-15\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/visits",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["visits"]
+						}
+					}
+				},
+				{
+					"name": "Get All Visits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/visits",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["visits"]
+						}
+					}
+				},
+				{
+					"name": "Get Visit by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/visits/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["visits", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Visit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyId\": 1,\n  \"userId\": 101,\n  \"visitDate\": \"2026-10-20\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/visits/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["visits", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Visit",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/visits/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["visits", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Inquiry Service",
+			"item": [
+				{
+					"name": "Create Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyId\": 1,\n  \"userId\": 101,\n  \"message\": \"Is this villa ready for immediate possession?\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/inquiries",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["inquiries"]
+						}
+					}
+				},
+				{
+					"name": "Get All Inquiries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inquiries",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["inquiries"]
+						}
+					}
+				},
+				{
+					"name": "Get Inquiry by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inquiries/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["inquiries", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Inquiry",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyId\": 1,\n  \"userId\": 101,\n  \"message\": \"Updated: Can we arrange an inspection this Saturday?\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/inquiries/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["inquiries", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Inquiry",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inquiries/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["inquiries", "1"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

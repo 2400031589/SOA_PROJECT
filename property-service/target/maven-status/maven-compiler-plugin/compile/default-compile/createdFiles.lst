@@ -1,0 +1,8 @@
+com\primehaven\propertyservice\entity\Property.class
+com\primehaven\propertyservice\PropertyServiceApplication.class
+com\primehaven\propertyservice\config\SecurityConfig.class
+com\primehaven\propertyservice\security\JwtUtil.class
+com\primehaven\propertyservice\security\JwtAuthenticationFilter.class
+com\primehaven\propertyservice\repository\PropertyRepository.class
+com\primehaven\propertyservice\controller\PropertyController.class
+com\primehaven\propertyservice\exception\ResourceNotFoundException.class
